@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengaturan Aplikasi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .btn-reset {
+            background-color: #ff6666;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+        }
+        .btn-reset:hover {
+            background-color: #ff4c4c;
+        }
+        .confirmation {
+            text-align: center;
+            margin-top: 20px;
+            color: #ff6666;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Pengaturan Aplikasi</h1>
+        <button class="btn-reset" onclick="confirmReset()">Reset Semua Data</button>
+
+        <div class="confirmation" id="confirmationMessage">
+            <p>Apakah kamu yakin ingin mereset semua data?</p>
+            <button class="btn-reset" onclick="resetLocalStorage()">Ya, Reset</button>
+        </div>
+    </div>
+
+    <script>
+        function confirmReset() {
+            // Tampilkan pesan konfirmasi
+            document.getElementById('confirmationMessage').style.display = 'block';
+        }
+
+        function resetLocalStorage() {
+            // Hapus semua data localStorage
+            localStorage.clear();
+            alert('Semua data berhasil di-reset!');
+            document.getElementById('confirmationMessage').style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>

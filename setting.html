@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengaturan Aplikasi</title>
+    <style>
+        body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Font premium */
+    background-color: #0d0d0d; /* Background hitam pekat */
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+.title {
+    text-align: center;
+    font-size: 18px; /* Lebih besar */
+    font-weight: bold; /* Menjadikan font bold */
+    margin-top: 20px;
+}
+        .divider {
+            width: 100%;
+            height: 2px; /* Lebih tebal */
+            background-color: gray;
+            margin: 15px 0;
+        }
+        .profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        .profile img {
+            width: 90px; /* Lebih besar */
+            height: 90px;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+        .profile-info {
+            line-height: 1.5;
+        }
+        .level {
+            font-weight: bold;
+        }
+        .option-title {
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 20px; /* Lebih besar */
+        }
+        .quality-option, .notif-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding: 15px; /* Lebih besar */
+            background-color: #333;
+            border-radius: 29px;
+            transition: background-color 0.3s;
+        }
+        .quality-option:hover, .notif-option:hover {
+            cursor: pointer;
+            background-color: #444;
+        }
+        .toggle-container {
+            display: flex;
+            align-items: center;
+        }
+        .status-text {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        /* Toggle Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px; /* Lebih besar */
+            height: 24px; /* Lebih besar */
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px; /* Sesuaikan dengan ukuran slider */
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px; /* Lebih besar */
+            width: 20px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px); /* Sesuaikan dengan ukuran slider */
+        }
+        .about-section {
+            margin-top: 25px;
+        }
+        .about-section .about-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding: 15px; /* Lebih besar */
+            background-color: #333;
+            border-radius: 29px;
+        }
+        .logout {
+            display: block;
+            text-align: center;
+            padding: 15px; /* Lebih besar */
+            background-color: red;
+            border-radius: 8px;
+            color: white;
+            margin-top: 8px; /* Lebih besar */
+            text-decoration: none;
+        }
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px; /* Lebih besar */
+        }
+        .footer a {
+            padding: 15px; /* Lebih besar */
+            background-color: #333;
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            background-color: #444;
+        }
+
+        /* Popup kualitas video */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+        }
+        .popup-content {
+            background-color: #333;
+            border-radius: 12px;
+            padding: 20px;
+            height: 100%;
+            overflow-y: auto;
+        }
+        .popup-content .quality-option {
+            margin-bottom: 10px;
+            padding: 15px; /* Lebih besar */
+            background-color: #444;
+            border-radius: 8px;
+        }
+        .popup-content .quality-option.selected {
+            background-color: #666;
+        }
+
+
+.bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    padding: -20px 0;
+    background-color: #1a1a1a; /* Warna latar belakang nav bawah lebih gelap */
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    border-top: 2px solid black;
+}
+
+.bottom-nav a {
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px; /* Lebih besar */
+}
+
+.bottom-nav img {
+    width: 32px; /* Lebih besar */
+    height: 32px;
+    display: block;
+    margin: 0 auto;
+}
+
+.bottom-nav .nav-item.active span {
+    font-size: 18px; /* Lebih besar */
+    font-weight: bold;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.bottom-nav .nav-item.active {
+    animation: fadeIn 0.8s ease-out; /* Animasi muncul */
+}
+
+.bottom-nav .nav-item.active img {
+    animation: fadeIn 0.8s ease-out; /* Animasi muncul untuk gambar */
+}
+
+.bottom-nav .nav-item.active span {
+    animation: fadeIn 0.8s ease-out; /* Animasi muncul untuk teks */
+}
+
+.popup-content {
+    background-color: #1a1a1a; /* Warna latar belakang popup lebih gelap */
+    border-radius: 12px;
+    padding: 20px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.quality-option {
+    margin-bottom: 10px;
+    padding: 15px; /* Lebih besar */
+    background-color: #333;
+    border-radius: 29px;
+    font-size: 18px; /* Lebih besar */
+}
+
+.quality-description {
+    margin-top: 5px;
+    font-size: 14px; /* Lebih besar */
+    color: #bbb; /* Lebih cerah untuk kontras */
+}
+/* Animasi slide ke kiri */
+@keyframes slideLeft {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+}
+
+/* Kelas untuk animasi slide */
+.slide-left {
+    animation: slideLeft 0.3s ease-out forwards;
+}
+.bottom-nav img[alt="Subscribe"],
+.bottom-nav img[alt="Jadwal"] {
+    width: 70px; /* Ukuran yang lebih besar */
+    height: 70px;
+    transform: translateY(-15px); /* Geser gambar ke atas */
+}
+
+a, a:focus, a:active {
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    box-shadow: none;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">Setting Aplikasi</div>
+        <div class="divider"></div>
+
+        <!-- Profil -->
+        <div class="profile">
+            <img src="logo.png" alt="Foto Profil">
+            <div class="profile-info">
+                <div>Nama: Pandi</div>
+                <div>Email: pandi@example.com</div>
+                <div class="level">Level: 5</div>
+            </div>
+        </div>
+
+        <!-- Kualitas Streaming -->
+        <div class="option-title">Kualitas</div>
+        <div class="quality-option" onclick="openQualityPopup()">
+            <div>Streaming</div>
+            <div id="selected-quality">720P (Bagus)</div>
+        </div>
+
+        <!-- Notifikasi -->
+        <div class="option-title">Notifikasi</div>
+
+        <!-- New Film Toggle -->
+        <div class="notif-option">
+            <div>New Film</div>
+            <div class="toggle-container">
+                <div id="status-new-film" class="status-text">Off</div>
+                <label class="switch">
+                    <input type="checkbox" id="new-film-toggle" onclick="toggleStatus('new-film')">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Subscribe New Episode Toggle -->
+        <div class="notif-option">
+            <div>Subscribe New Episode</div>
+            <div class="toggle-container">
+                <div id="status-subscribe" class="status-text">Off</div>
+                <label class="switch">
+                    <input type="checkbox" id="subscribe-toggle" onclick="toggleStatus('subscribe')">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Reply Comment Toggle -->
+        <div class="notif-option">
+            <div>Reply Comment</div>
+            <div class="toggle-container">
+                <div id="status-reply" class="status-text">Off</div>
+                <label class="switch">
+                    <input type="checkbox" id="reply-toggle" onclick="toggleStatus('reply')">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Tentang Aplikasi -->
+        <div class="about-section">
+            <div class="option-title">About</div>
+            <div class="about-info">
+                <div>Versi</div>
+                <div>0.0.9 (7)</div>
+            </div>
+            <div class="about-info">
+                <div>Email Admin</div>
+                <div>adminonefilm@gmail.com</div>
+            </div>
+            <div class="about-info">
+                <div>Bantu Rating</div>
+                <div>5 <span>&#9733;</span></div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="persyaratan.html">Terms of Service</a>
+        </div>
+
+        <!-- Logout -->
+        <a href="#" class="logout">Logout</a>
+    </div>
+<!-- Popup Pilihan Kualitas Video -->
+    <div class="popup-overlay" id="quality-popup">
+        <div class="popup-content">
+            <div class="option-title">Pilihan Kualitas Video</div>
+            <div class="quality-option" onclick="selectQuality('360P (Hemat)')">360P (Hemat)</div>
+            <div class="quality-description">Memiliki kualitas rendah, kecepatan streaming cepat, dan ukuran video yang lebih ekonomis.</div>
+
+            <div class="quality-option" onclick="selectQuality('480P (Standar)')">480P (Standar)</div>
+            <div class="quality-description">Memiliki kualitas sedang dan kecepatan streaming lumayan cepat.</div>
+
+            <div class="quality-option" onclick="selectQuality('720P (Bagus)')">720P (Bagus)</div>
+            <div class="quality-description">Memiliki kualitas lumayan dan kecepatan streaming mungkin memerlukan internet yang layak.</div>
+
+            <div class="quality-option" onclick="selectQuality('1080P (Premium)')">1080P (Premium)</div>
+            <div class="quality-description">Fitur khusus premium dengan kualitas streaming tertinggi untuk pengalaman menonton di Smartphone, memerlukan internet yang cepat.</div>
+        </div>
+    </div>
+    
+<!-- Navigasi Bawah -->
+    <div class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <img src="home-icon.png" alt="Home">
+        </a>
+        <a href="jadwal.html" class="nav-item">
+            <img src="calendar-icon.png" alt="Jadwal">
+        </a>
+        <a href="riwayat.html" class="nav-item">
+            <img src="history-icon.png" alt="Riwayat">
+        </a>
+        <a href="subscribe.html" class="nav-item">
+            <img src="subscribe-icon.png" alt="Subscribe">
+        </a>
+        <a href="setting.html" class="nav-item active">
+            <img src="settings-icon.png" alt="Setting">
+            <span>Setting</span>
+        </a>
+    </div>
+
+
+    <script>
+        // Menampilkan popup pilihan kualitas
+        function openQualityPopup() {
+            document.getElementById('quality-popup').style.display = 'block';
+        }
+
+        // Menutup popup setelah memilih kualitas
+        function selectQuality(quality) {
+            document.getElementById('selected-quality').textContent = quality;
+            document.getElementById('quality-popup').style.display = 'none';
+        }
+
+        // Fungsi untuk mengubah status toggle
+        function toggleStatus(type) {
+            var statusText;
+            if (type === 'new-film') {
+                statusText = document.getElementById('status-new-film');
+            } else if (type === 'subscribe') {
+                statusText = document.getElementById('status-subscribe');
+            } else if (type === 'reply') {
+                statusText = document.getElementById('status-reply');
+            }
+
+            // Ubah status teks berdasarkan posisi toggle
+            var toggle = document.getElementById(type + '-toggle');
+            if (toggle.checked) {
+                statusText.textContent = 'On';
+            } else {
+                statusText.textContent = 'Off';
+            }
+        }
+        let touchStartX = 0;
+let touchEndX = 0;
+
+document.addEventListener('touchstart', (event) => {
+    touchStartX = event.touches[0].clientX;
+});
+
+document.addEventListener('touchend', (event) => {
+    touchEndX = event.changedTouches[0].clientX;
+    handleSwipe();
+});
+
+function handleSwipe() {
+    const swipeDistance = touchEndX - touchStartX;
+    
+    // Geser ke kanan
+    if (swipeDistance > 50) {
+        // Menambahkan animasi slide ke kiri
+        document.body.classList.add('slide-left');
+        
+        // Arahkan ke halaman subscribe.html setelah animasi selesai
+        setTimeout(() => {
+            window.location.href = 'subscribe.html';
+        }, 500); // Durasi animasi 0.5 detik
+    } 
+    
+    // Geser ke kiri (tidak ada tindakan)
+    else if (swipeDistance < -50) {
+        // Tidak melakukan apa-apa untuk geseran ke kiri
+    }
+}
+    </script>
+</body>
+</html>

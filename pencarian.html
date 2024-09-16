@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pencarian Film</title>
+    <style>
+        body {
+            background-color: black; /* Latar belakang keseluruhan halaman */
+            color: white; /* Warna teks keseluruhan halaman */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh; /* Memastikan halaman memenuhi tinggi viewport */
+            position: relative;
+        }
+
+        .search-container {
+            width: 85%;
+            margin-top: 10px; /* Jarak dari atas halaman */
+            margin-left: 50px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: #555;
+            border-radius: 29px;
+            padding: 5px;
+        }
+
+        .search-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px; /* Jarak antara ikon dan kolom pencarian */
+            margin-left: 10px; /* Geser ikon ke kanan */
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            border: none;
+            border-radius: 29px;
+            background-color: #555;
+            color: white;
+        }
+
+        .results-container {
+            width: 90%;
+            max-width: 800px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .result-item {
+            background-color: #222; /* Latar belakang setiap item hasil pencarian */
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            color: white;
+            cursor: pointer; /* Menambahkan pointer cursor saat hover */
+        }
+
+        .result-item img {
+            border-radius: 5px;
+            width: 120px; /* Lebar gambar film */
+            height: 180px; /* Tinggi gambar film */
+            margin-right: 15px;
+            transition: transform 0.3s ease; /* Animasi transformasi */
+        }
+
+        .result-item.animate img {
+            animation: scaleUp 0.5s forwards; /* Menambahkan animasi saat klik */
+        }
+
+        @keyframes scaleUp {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(1.2); /* Memperbesar gambar sedikit */
+            }
+        }
+
+        .result-item .details {
+            flex: 1;
+        }
+
+        .result-item .title {
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .result-item .description {
+            font-size: 16px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Tombol kembali (dengan logo panah) */
+        .back-button {
+            background: url('https://img.icons8.com/ios-filled/50/ffffff/left.png') no-repeat center;
+            background-color: rgba(0, 0, 0, 0);
+            background-size: contain;
+            width: 40px;
+            height: 40px;
+            border: none;
+            cursor: pointer;
+            position: absolute;
+            top: 10px; /* Jarak dari atas halaman */
+            left: 10px; /* Jarak dari kiri halaman */
+            border-radius: 50%;
+        }
+
+        a, a:focus, a:active, button:focus, button:active {
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="window.location.href='home.html'"></button>
+
+    <div class="search-container">
+        <div class="search-box">
+            <img src="https://img.icons8.com/ios-filled/50/ffffff/search.png" alt="Search Icon" class="search-icon">
+            <input type="text" id="searchInput" placeholder="Ketik untuk mencari...">
+        </div>
+    </div>
+
+    <div class="results-container" id="resultsContainer">
+        <!-- Hasil pencarian akan ditampilkan di sini -->
+    </div>
+
+    <script>
+        const films = [
+            {
+                title: "KKN di Desa Penari",
+                description: "Sebuah film horor yang mengisahkan tentang KKN di sebuah desa mistis.",
+                image: "KKN Desa Penari.jpg"
+            },
+            {
+                title: "Perempuan Tanah Jahanam",
+                description: "Film horor yang menceritakan tentang teror yang dialami seorang wanita di sebuah desa.",
+                image: "Tanah Jahanam.jpg"
+            },
+            {
+                title: "Pengabdi Setan",
+                description: "Film horor tentang keluarga yang diganggu oleh kekuatan jahat setelah kematian ibu mereka.",
+                image: "Pengabdi setan1.jpg"
+            },
+            {
+                title: "Kembalikan Tubuhku",
+                description: "Film yang menceritakan tentang seorang wanita yang terjebak dalam tubuh orang lain.",
+                image: "Kembalikan Tubuh.jpg"
+            },
+            {
+                title: "Badarawuhi di Desa Penari",
+                description: "Film horor yang mengisahkan tentang seorang pemuda yang menghadapi teror di desa.",
+                image: "Badarawuhi Desa Penari.jpg"
+            },
+            {
+                title: "Waktu Magrib",
+                description: "Film yang bercerita tentang teror yang terjadi menjelang waktu magrib di sebuah desa.",
+                image: "waktu magrib.jpg"
+            }
+        ];
+
+        const searchInput = document.getElementById('searchInput');
+        const resultsContainer = document.getElementById('resultsContainer');
+
+        function displayResults(results) {
+            resultsContainer.innerHTML = '';
+            if (results.length > 0) {
+                results.forEach(film => {
+                    const resultItem = document.createElement('div');
+                    resultItem.className = 'result-item';
+                    
+                    // Menambahkan event listener untuk gambar dan teks
+                    if (film.title === "Waktu Magrib") {
+                        resultItem.innerHTML = `
+                            <img src="${film.image}" alt="${film.title}">
+                            <div class="details">
+                                <div class="title">${film.title}</div>
+                                <div class="description">${film.description}</div>
+                            </div>
+                        `;
+                        resultItem.addEventListener('click', () => {
+                            resultItem.classList.add('animate');
+                            setTimeout(() => {
+                                window.location.href = 'waktumagrib.html';
+                            }, 500); // Delay agar animasi selesai
+                        });
+                    } else {
+                        resultItem.innerHTML = `
+                            <img src="${film.image}" alt="${film.title}">
+                            <div class="details">
+                                <div class="title">${film.title}</div>
+                                <div class="description">${film.description}</div>
+                            </div>
+                        `;
+                    }
+                    resultsContainer.appendChild(resultItem);
+                });
+                resultsContainer.classList.remove('hidden');
+            } else {
+                resultsContainer.classList.add('hidden');
+            }
+        }
+
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.toLowerCase();
+            const filteredFilms = films.filter(film => film.title.toLowerCase().includes(query));
+            if (query.trim() === '') {
+                resultsContainer.classList.add('hidden');
+            } else {
+                displayResults(filteredFilms);
+            }
+        });
+
+        // Fokus pada kolom pencarian saat halaman dimuat
+        window.onload = function() {
+            searchInput.focus();
+        };
+    </script>
+</body>
+</html>

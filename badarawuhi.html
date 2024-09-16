@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nonton Video</title>
+    
+     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000; /* Background hitam untuk kesan premium dan horor */
+            color: #ddd; /* Teks berwarna terang untuk kontras dengan latar belakang gelap */
+            margin: 0;
+            padding: 0;
+            overflow-y: auto;
+        }
+
+        .video-container {
+            padding: 20px;
+            text-align: center;
+            max-width: 1200px; /* Lebar maksimum untuk konten */
+            margin: auto; /* Mengatur margin otomatis untuk memusatkan konten */
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #d32f2f; /* Warna merah gelap untuk tombol kembali */
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7); /* Bayangan untuk kesan premium */
+        }
+
+        h1 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 2em; /* Ukuran font yang lebih besar */
+        }
+
+        .video-player {
+            margin-bottom: 20px;
+        }
+
+        .video-player video {
+            width: 100%;
+            max-width: 100%; /* Memastikan video mengisi lebar kontainer */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7); /* Bayangan video untuk efek premium */
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .like-dislike {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .like-dislike button {
+            background-color: #333; /* Warna tombol yang lebih gelap */
+            border: none;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7); /* Bayangan untuk efek premium */
+        }
+
+        .like-dislike span {
+            margin: 0 5px;
+        }
+
+        .quality, .download, .share {
+            background-color: #333;
+            border: none;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7); /* Bayangan untuk efek premium */
+        }
+
+        .quality-options {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #222; /* Latar belakang gelap untuk opsi kualitas */
+            color: #ddd;
+            padding: 20px;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.7); /* Bayangan untuk efek premium */
+            border-radius: 20px 20px 0 0;
+        }
+
+        .quality-options h2 {
+            margin-bottom: 20px;
+            color: #ff5722; /* Warna oranye untuk judul opsi kualitas */
+        }
+
+        .quality-option {
+            margin-bottom: 20px;
+            cursor: pointer;
+            border-bottom: 1px solid #444; /* Garis pemisah antar opsi */
+            padding-bottom: 10px;
+        }
+
+        .quality-option p {
+            margin: 5px 0;
+        }
+
+        .episode-list {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .episode-list h2 {
+            margin-bottom: 10px;
+            color: #ff5722; /* Warna oranye untuk judul episode */
+        }
+
+        .episode-list a {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 15px;
+            background-color: #333;
+            border-radius: 10px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7); /* Bayangan untuk efek premium */
+        }
+
+        .video-description {
+            background-color: #222; /* Warna latar belakang gelap untuk deskripsi video */
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .comment-section {
+            margin-top: 20px;
+            text-align: left;
+            background-color: #222; /* Warna latar belakang gelap untuk komentar */
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .comment-section h2 {
+            color: #ff5722; /* Warna oranye untuk judul komentar */
+            margin-bottom: 10px;
+        }
+
+        .comment-section textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            margin-bottom: 10px;
+            background-color: #333;
+            color: #ddd;
+            resize: vertical;
+        }
+
+        .comment-section button {
+            background-color: #ff5722; /* Warna oranye untuk tombol kirim */
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7); /* Bayangan untuk efek premium */
+        }
+        
+        .comment {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #1c1c1c;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+    position: relative;
+}
+
+.delete-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #d32f2f;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+    transition: background-color 0.3s;
+}
+
+.delete-btn:hover {
+    background-color: #b71c1c;
+}
+        
+
+   .comment img {
+    border-radius: 50%;
+    width: 50px; /* Ukuran sedikit lebih besar untuk kesan premium */
+    height: 50px;
+    margin-right: 10px;
+    border: 2px solid #ff5722; /* Border oranye untuk tampilan premium */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7); /* Bayangan untuk efek elegan */
+}
+
+.comment-content {
+    background-color: #333;
+    padding: 10px;
+    border-radius: 10px;
+    color: #ddd;
+    font-size: 14px; /* Ukuran teks lebih kecil */
+    max-width: 600px;
+}
+
+.comment-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.comment-info .name {
+    font-weight: bold;
+    color: #ff5722; /* Warna oranye untuk nama agar tetap terlihat kontras */
+    margin-right: 10px;
+    font-size: 16px; /* Ukuran nama sedikit lebih besar */
+}
+/* CSS untuk bagian baca selengkapnya */
+.read-more-container {
+    margin-top: 20px;
+}
+
+.read-more, .read-less {
+    display: inline-block;
+    background-color: #ff5722; /* Oranye premium */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7); /* Bayangan untuk efek premium */
+    transition: background-color 0.3s ease; /* Transisi untuk hover */
+}
+
+.read-more:hover, .read-less:hover {
+    background-color: #e64a19; /* Warna oranye lebih gelap saat di-hover */
+}
+
+.read-more:active, .read-less:active {
+    background-color: #d84315; /* Warna oranye lebih gelap saat ditekan */
+}
+
+.hidden-content {
+    display: none; /* Konten tersembunyi sampai tombol "Baca Selengkapnya" diklik */
+}
+
+.video-embed {
+  width: 100%;
+  height: 250px;
+  max-width: 640px;
+}
+</style>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAyQZSyuT8ERCRTijGo6XIrqQ3D3VZHn-Q",
+            authDomain: "onefilm-ea845.firebaseapp.com",
+            projectId: "onefilm-ea845",
+            storageBucket: "onefilm-ea845.appspot.com",
+            messagingSenderId: "519901960394",
+            appId: "1:519901960394:web:e087f82e9f8824d1167c33",
+            measurementId: "G-MMWGH21D6V"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Function to post a comment
+        async function postBadarawuhiComment() {
+            const commentInput = document.getElementById('badarawuhiCommentInput');
+            const commentText = commentInput.value.trim();
+
+            if (commentText) {
+                try {
+                    await addDoc(collection(db, 'badarawuhiComments'), {
+                        text: commentText,
+                        timestamp: new Date()
+                    });
+                    commentInput.value = ''; // Clear input after successful submission
+                    loadBadarawuhiComments(); // Reload comments
+                } catch (e) {
+                    console.error("Error adding comment: ", e);
+                }
+            }
+        }
+
+        // Function to load comments
+        async function loadBadarawuhiComments() {
+            const commentsList = document.getElementById('badarawuhiCommentsList');
+            commentsList.innerHTML = ''; // Clear previous comments
+
+            try {
+                const q = query(collection(db, 'badarawuhiComments'), orderBy('timestamp', 'desc'));
+                const querySnapshot = await getDocs(q);
+                querySnapshot.forEach((doc) => {
+                    const comment = doc.data();
+                    const commentElement = document.createElement('div');
+                    commentElement.className = 'comment';
+                    commentElement.innerHTML = `<p>${comment.text}</p>`;
+                    commentsList.appendChild(commentElement);
+                });
+            } catch (e) {
+                console.error("Error getting comments: ", e);
+            }
+        }
+
+        // Wait for the document to load before adding event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('button[onclick="postBadarawuhiComment()"]').addEventListener('click', postBadarawuhiComment);
+            loadBadarawuhiComments(); // Load comments when page loads
+        });
+    </script>
+</head>
+<body>
+    <button class="back-button" onclick="window.location.href='home.html';">&larr;</button>
+    <div class="video-container">
+        <h1>badarawuhi di desa penari</h1>
+        <div class="video-player">
+        <iframe class="video-embed" src="https://player.vimeo.com/video/1009391608" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            </video>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <div class="like-dislike">
+                <button id="likeBtn">👍</button><span id="likeCount">0</span>
+                <button id="dislikeBtn">👎</button><span id="dislikeCount">0</span>
+            </div>
+            <button class="quality" onclick="toggleQualityOptions()">Quality</button>
+            <button class="download" onclick="downloadVideo()">Download</button>
+            <button class="share" onclick="shareVideo()">Share</button>
+        </div>
+
+        <!-- Quality Options -->
+        <div class="quality-options" id="qualityOptions">
+            <h2>Pilih Kualitas Video</h2>
+            <div class="quality-option" onclick="changeQuality('video/JoutaiIjouSkill1_360.mp4')">
+                <p>360P (Hemat)</p>
+                <p>Memiliki kualitas rendah, kecepatan streaming cepat dan ukuran video yang lebih ekonomis</p>
+            </div>
+            <div class="quality-option" onclick="changeQuality('video/JoutaiIjouSkill1.mp4')">
+                <p>480P (Standar)</p>
+                <p>Memiliki kualitas sedang dan kecepatan streaming lumayan cepat</p>
+            </div>
+            <div class="quality-option" onclick="changeQuality('video/JoutaiIjouSkill1_720.mp4')">
+                <p>720P (Bagus)</p>
+                <p>Memiliki kualitas lumayan dan kecepatan streaming mungkin memerlukan internet yang layak</p>
+            </div>
+            <div class="quality-option" onclick="changeQuality('video/JoutaiIjouSkill1_1080.mp4')">
+                <p>1080P (Premium)</p>
+                <p>Fitur khusus premium dengan kualitas streaming tertinggi untuk pengalaman menonton di Smartphone, memerlukan internet yang cepat</p>
+            </div>
+        </div>
+
+        <!-- Episode List -->
+        <div class="episode-list">
+            <h2>Episode List</h2>
+            <a href="badarawuhi.html">1</a>
+        </div>
+
+        <!-- Video Description -->
+        <div class="video-description">
+            <h2>Synopsis</h2>
+        </div>
+
+        <!-- Comment Section -->
+        <div class="comment-section">
+            <h2>Komentar</h2>
+            <textarea id="badarawuhiCommentInput" placeholder="Tulis komentar Anda di sini..."></textarea>
+            <button onclick="postBadarawuhiComment()">Kirim</button>
+            <div id="badarawuhiCommentsList">
+                <!-- Komentar akan muncul di sini -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>

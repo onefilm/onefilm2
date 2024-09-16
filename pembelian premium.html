@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status Premium</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        .status {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Status Premium</h1>
+
+        <button class="btn" onclick="activatePremium()">Beli Premium</button>
+        <button class="btn" onclick="checkPremiumStatus()">Cek Status Premium</button>
+
+        <div class="status" id="statusMessage"></div>
+    </div>
+
+    <script>
+        // Fungsi untuk mengaktifkan premium dan menyimpan status ke localStorage
+        function activatePremium() {
+            localStorage.setItem('isPremium', true);
+            alert('Anda telah membeli akses premium!');
+            updateStatusMessage(true);
+        }
+
+        // Fungsi untuk mengecek status premium
+        function checkPremiumStatus() {
+            const isPremium = localStorage.getItem('isPremium');
+            updateStatusMessage(isPremium === 'true');
+        }
+
+        // Fungsi untuk memperbarui pesan status premium
+        function updateStatusMessage(isPremium) {
+            const statusMessage = document.getElementById('statusMessage');
+            if (isPremium) {
+                statusMessage.textContent = 'Anda adalah pengguna premium. Terima kasih!';
+                statusMessage.style.color = 'green';
+            } else {
+                statusMessage.textContent = 'Anda belum memiliki akses premium.';
+                statusMessage.style.color = 'red';
+            }
+        }
+
+        // Cek status premium saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            checkPremiumStatus();
+        });
+    </script>
+
+</body>
+</html>

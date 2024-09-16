@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Premium</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: rgba(20, 20, 20, 1); /* Hitam gelap */
+            color: #f5f5f5; /* Abu-abu terang */
+            overflow-y: auto; /* Memungkinkan pengguliran ke bawah */
+        }
+
+/* Latar belakang abu-abu di atas */
+.header {
+    background-color: rgba(0, 0, 0, 0);
+    width: 100%;
+    padding: 3px 10px; /* Mengurangi padding vertikal untuk memendekkan tinggi */
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    z-index: 1000;
+}
+        /* Tombol kembali (dengan logo panah) */
+        .back-button {
+            background: url('https://img.icons8.com/ios-filled/50/ffffff/left.png') no-repeat center;
+            background-color: rgba(0, 0, 0, 0);
+            background-size: contain;
+            width: 50px;
+            height: 50px;
+            border: none;
+            cursor: pointer;
+            margin-right: 15px;
+            border-radius: 50%;
+        }
+
+        /* Tulisan one premium */
+        .premium-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #f5f5f5;
+        }
+
+        /* Kontainer untuk konten di tengah */
+        .content {
+            margin-top: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Kotak untuk status premium */
+        .premium-box {
+            background-color: #333;
+            border-radius: 20px;
+            padding: 2px;
+            text-align: center;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            color: #f5f5f5;
+            font-weight: bold;
+            font-size: 18px;
+            animation: smoothRotate 2.5s infinite alternate ease-in-out;
+        }
+
+        /* Animasi putar kotak lebih halus */
+        @keyframes smoothRotate {
+            0% { transform: rotate(0deg); }
+            50% { transform: rotate(8deg); }
+            100% { transform: rotate(-8deg); }
+        }
+
+        /* Memisahkan kata Belum dan Premium */
+        .premium-box .top-text {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .premium-box .bottom-text {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Kontainer untuk 4 kotak pembelian */
+        .purchase-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 680px;
+            margin-top: 100px;
+        }
+
+        /* Gaya untuk tiap kotak pembelian */
+        .purchase-box {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #f5f5f5;
+            text-align: center;
+            padding: 20px;
+            width: 200px;
+            border-radius: 29px;
+            cursor: pointer;
+            box-sizing: border-box;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .purchase-box:hover {
+            background-color: #444;
+            transform: translateY(-5px);
+        }
+
+        /* Tulisan +1 bulan dan harga */
+        .info {
+            margin-bottom: 10px;
+            font-size: 30px;
+            font-weight: bold;
+            color: #f9a825;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        /* Tombol beli */
+        .buy-button {
+            background-color: rgba(128, 128, 128, 0.6);
+            color: white;
+            border: none;
+            padding: 10px 88px;
+            border-radius: 29px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s;
+            position:relative;
+            top:17px;
+            margin-left:-20px;
+        }
+
+        .buy-button:hover {
+            background-color: #f9a825;
+        }
+
+        /* Kotak info fitur premium dan ketentuan premium */
+        .info-box {
+          overflow: visible;
+          font-weight:bold;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 18px;
+            padding: 20px;
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+            margin: 20px 0;
+            color: #f5f5f5;
+            margin-top: 60px;
+        }
+
+        .info-box h2 {
+            background-color: #666;
+            padding: 6px;
+            border-radius: 29px;
+            margin: 0;
+            font-size: 22px;
+            margin-top: -19px;
+            margin-left: -19px;
+            width: 379px;
+            
+        }
+
+        .info-box ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0 0;
+            text-align: left;
+            padding-left: -11px;
+        }
+
+        .info-box ul li {
+            padding: 10px;
+            
+        }
+
+        .info-box ul li:last-child {
+            border-bottom: none;
+        }
+
+        /* Jarak antar kotak info */
+        .info-box + .info-box2 {
+            margin-top: 40px;
+        }
+        
+        .info-box2 {
+          overflow: visible;
+          font-weight:bold;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 18px;
+            padding: 20px;
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+            margin: 20px 0;
+            color: #f5f5f5;
+            margin-top: 60px;
+        }
+        .info-box2 h2 {
+            background-color: #666;
+            padding: 6px;
+            border-radius: 29px;
+            margin: 0;
+            font-size: 22px;
+            margin-top: -19px;
+            margin-left: -19px;
+            width: 379px;
+            
+        }
+        .info-box2 ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0 0;
+        }
+        .info-box2 ul li {
+            padding: 10px;
+            
+        }
+
+        .info-box2 ul li:last-child {
+            border-bottom: none;
+        }
+        
+a, a:focus, a:active, button:focus, button:active {
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    box-shadow: none;
+}
+
+/* Menghilangkan highlight biru di tombol saat di-klik */
+button, button:focus, button:active {
+    outline: none;
+    -webkit-tap-highlight-color: transparent; /* Hilangkan highlight di perangkat sentuh */
+    box-shadow: none; /* Hilangkan bayangan saat klik */
+}
+
+/* Menghilangkan highlight biru di semua elemen di perangkat sentuh */
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Hilangkan efek highlight saat memilih teks (opsional) */
+::selection {
+    background: transparent;
+}
+    </style>
+</head>
+<body>
+
+    <!-- Bagian header dengan tombol kembali dan teks one premium -->
+    <div class="header">
+        <button class="back-button" onclick="window.location.href='home.html'"></button>
+        <div class="premium-text">One Premium</div>
+    </div>
+
+    <!-- Bagian konten -->
+    <div class="content">
+        <!-- Kotak status premium -->
+        <div class="premium-box" id="premium-status">
+            <div class="top-text">Belum</div>
+            <div class="bottom-text">Premium</div>
+        </div>
+
+        <!-- Kontainer pembelian dalam dua baris -->
+        <div class="purchase-container">
+            <!-- Kolom 1 bulan -->
+            <div class="purchase-box">
+                <div class="info">+ 1 Bulan</div>
+                <div class="price">Rp 5.000</div>
+                <button class="buy-button">Beli</button>
+            </div>
+
+            <!-- Kolom 3 bulan -->
+            <div class="purchase-box">
+                <div class="info">+ 3 Bulan</div>
+                <div class="price">Rp 15.000</div>
+                <button class="buy-button">Beli</button>
+            </div>
+
+            <!-- Kolom 4 bulan -->
+            <div class="purchase-box">
+                <div class="info">+ 4 Bulan</div>
+                <div class="price">Rp 20.000</div>
+                <button class="buy-button">Beli</button>
+            </div>
+
+            <!-- Kolom 5 bulan -->
+            <div class="purchase-box">
+                <div class="info">+ 5 Bulan</div>
+                <div class="price">Rp 25.000</div>
+                <button class="buy-button">Beli</button>
+            </div>
+        </div>
+
+        <!-- Kotak info fitur premium -->
+        <div class="info-box">
+            <h2>Fitur Premium</h2>
+            <ul>
+                <li>Bebas Iklan</li>
+                <li>Foto Profil Custom</li>
+                <li>Badge Premium</li>
+                <li>Kunci tidak terbatas</li>
+                <li>Resolusi Video 1080P</li>
+                <li>Komentar Lebih Dari 1x per Episode</li>
+            </ul>
+        </div>
+
+<!-- Kotak info ketentuan premium -->
+<div class="info-box2">
+    <h2>Ketentuan Premium</h2>
+    <ul>
+        <li>Premium bisa dibeli ulang untuk menambah durasi</li>
+        <li>Sistem pembelian bukan berlangganan</li>
+        <li>Tidak ada perpanjangan otomatis</li>
+        <li>Tidak bisa melakukan refund</li>
+        <li>Hubungi Email admin ketika ada kendala</li>
+        <li><a href="mailto:adminonefilm@gmail.com" style="color: #blue; text-decoration: underline;">adminonefilm@gmail.com</a></li>
+    </ul>
+</div>
+    </div>
+
+     <script>
+// Logika untuk mengganti status premium
+let userIsPremium = localStorage.getItem('isPremium') === 'true'; // Status awal user
+const premiumBox = document.getElementById('premium-status');
+const buyButtons = document.querySelectorAll('.buy-button');
+
+// Fungsi untuk menghitung dan menampilkan waktu kadaluarsa
+function updateExpirationStatus() {
+    const now = new Date();
+    const expirationDate = new Date(localStorage.getItem('expirationDate'));
+
+    if (userIsPremium && expirationDate) {
+        const timeDiff = expirationDate - now;
+        if (timeDiff > 0) {
+            const daysLeft = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            const hoursLeft = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            premiumBox.querySelector('.bottom-text').textContent = `${daysLeft} hari ${hoursLeft} jam`;
+        } else {
+            userIsPremium = false;
+            localStorage.removeItem('expirationDate');
+            localStorage.setItem('isPremium', 'false');
+            localStorage.removeItem('daysActive'); // Hapus informasi hari aktif
+            updatePremiumStatus();
+        }
+    } else {
+        premiumBox.querySelector('.bottom-text').textContent = '';
+    }
+}
+
+// Fungsi untuk mengupdate status premium di halaman
+function updatePremiumStatus() {
+    if (userIsPremium) {
+        premiumBox.querySelector('.top-text').textContent = '';
+        premiumBox.querySelector('.bottom-text').textContent = 'Loading...'; // Placeholder saat memuat
+        updateExpirationStatus(); // Tampilkan waktu kadaluarsa
+    } else {
+        premiumBox.querySelector('.top-text').textContent = 'Belum';
+        premiumBox.querySelector('.bottom-text').textContent = 'Premium';
+    }
+}
+
+// Fungsi untuk menyimpan hari aktif premium
+function saveActiveDays(days) {
+    localStorage.setItem('daysActive', days);
+}
+
+// Fungsi untuk mendapatkan hari aktif premium
+function getActiveDays() {
+    return parseInt(localStorage.getItem('daysActive'), 10) || 0;
+}
+
+// Fungsi untuk konfirmasi pembayaran (misalnya melalui popup atau dialog)
+function confirmPayment(plan, daysToAdd) {
+    if (confirm(`Anda akan membeli paket ${plan}. Apakah Anda yakin?`)) {
+        // Set premium dan waktu kadaluarsa
+        userIsPremium = true;
+        const currentActiveDays = getActiveDays(); // Ambil hari aktif yang ada
+        const expirationDate = new Date(Date.now() + (currentActiveDays + daysToAdd) * 24 * 60 * 60 * 1000); // Menambahkan durasi ke tanggal sekarang
+        localStorage.setItem('expirationDate', expirationDate.toISOString());
+        localStorage.setItem('isPremium', 'true');
+        
+        // Simpan hari aktif
+        saveActiveDays(currentActiveDays + daysToAdd);
+
+        updatePremiumStatus(); // Update tampilan status premium
+        alert('Anda sekarang Premium!');
+    }
+}
+
+// Event listener untuk tombol beli
+buyButtons.forEach(button => {
+    button.addEventListener('click', function() {
+        const plan = button.parentElement.querySelector('.info').textContent; // Mendapatkan informasi paket
+        let daysToAdd = 0;
+
+        // Tentukan durasi berdasarkan informasi paket
+        switch (plan) {
+            case '+ 1 Bulan':
+                daysToAdd = 30;
+                break;
+            case '+ 3 Bulan':
+                daysToAdd = 90;
+                break;
+            case '+ 4 Bulan':
+                daysToAdd = 120;
+                break;
+            case '+ 5 Bulan':
+                daysToAdd = 150;
+                break;
+        }
+
+        // Konfirmasi pembayaran
+        confirmPayment(plan, daysToAdd);
+    });
+});
+
+// Update status premium pada awal
+updatePremiumStatus();
+
+// Update status kadaluarsa setiap jam
+setInterval(updateExpirationStatus, 60 * 60 * 1000); // Setiap jam
+
+
+</script>
+
+
+</body>
+</html>
